@@ -1,0 +1,6 @@
+## Interface: 80000
+## Title: ctan
+## Notes: Call to arms notifier
+## Author: Hamdor
+## Version: 0.1
+ctan.lua
