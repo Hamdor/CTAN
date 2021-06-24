@@ -9,10 +9,11 @@ jobs:
         uses: actions/checkout@v2
       - uses: actions/checkout@master
       - name: Package
-        uses: thedoctor0/zip-release@master
+        uses: TheDoctor0/zip-release@master
         with:
           filename: 'ctan.zip'
           exclusions: '*.git* README.md'
+          path: 'ctan'
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
