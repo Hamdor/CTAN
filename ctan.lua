@@ -6,12 +6,12 @@ local interval = 40
 -- Default role.
 local role = "none"
 -- ID for heroic shadowlands dungeons.
-local bfa_hero_id = 2087
+local dungeon_id = 2087
 
 -- Timer callback function, checks whether there is a bonus or not.
 local function tick()
   eligible, forTank, forHealer,
-  forDamage, _, _, _ = GetLFGRoleShortageRewards(bfa_hero_id,
+  forDamage, _, _, _ = GetLFGRoleShortageRewards(dungeon_id,
                                                  LFG_ROLE_SHORTAGE_RARE)
   if role == "TANK" and forTank then
     ActionButton_ShowOverlayGlow(LFDMicroButton)
