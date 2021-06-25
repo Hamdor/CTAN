@@ -1,4 +1,7 @@
 # Call to arms notifier
+
+<p align="center"><img src="screenshot.png" /></p>
+
 Get notified once you can earn a bonus for your role in heroic dungeons.
 
 ## Setup
