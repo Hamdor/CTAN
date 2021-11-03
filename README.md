@@ -10,4 +10,4 @@ Just copy the entire folder to your World of Warcraft's AddOn folder:
 World of Warcraft/Interface/Addons
 ```
 
-*Note: This was tested with WoW Client 9.1.0 (39229)*
+*Note: This was tested with WoW Client 9.1.5 (40871)*
