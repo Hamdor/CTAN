@@ -5,7 +5,7 @@ local events = {}
 local interval = 40
 -- Default role.
 local role = "none"
--- ID for heroic shadowlands dungeons.
+-- ID for Random Heroic (Shadowlands)
 local dungeon_id = 2087
 
 -- Timer callback function, checks whether there is a bonus or not.
