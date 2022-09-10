@@ -34,6 +34,12 @@ dungeon_ids["Domination's Grasp (LFR)"] = 2347
 dungeon_ids["The Grand Design (LFR)"] = 2348
 
 local earnable_dungeons = {}
+local seen_dungeons = {}
+
+-- Checks if two tables are equal
+local function table_equal(a, b)
+  return table.concat(a) == table.concat(b)
+end
 
 -- Timer callback function, checks whether there is a bonus or not.
 local function tick()
@@ -54,7 +60,7 @@ local function tick()
       table.insert(earnable_dungeons, key)
     end
   end
-  if enable_glow then
+  if not table_equal(earnable_dungeons, seen_dungeons) and enable_glow then
     ActionButton_ShowOverlayGlow(LFDMicroButton)
   else
     ActionButton_HideOverlayGlow(LFDMicroButton)
@@ -90,6 +96,8 @@ function events:ADDON_LOADED(name)
 
   -- Register function for tooltip hide
   LFDMicroButton:SetScript("OnLeave", function()
+    seen_dungeons = earnable_dungeons
+    ActionButton_HideOverlayGlow(LFDMicroButton)
     GameTooltip:Hide()
   end)
 
