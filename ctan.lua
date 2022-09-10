@@ -12,10 +12,10 @@ dungeon_ids["Shadowlands (NHC)"] = 2086
 dungeon_ids["Shadowlands (HC)"] = 2087
 dungeon_ids["Burning Crusade (Timewalking)"] = 744
 dungeon_ids["Wrath of the Lich King (Timewalking)"] = 995
-dungeon_ids["Cataclysm (Timewalking"] = 1146
-dungeon_ids["Mists of Pandaria (Timewalking"] = 1453
-dungeon_ids["Warlords of Draenor (Timewalking"] = 1971
-dungeon_ids["Legion (Timewalking"] = 2274
+dungeon_ids["Cataclysm (Timewalking)"] = 1146
+dungeon_ids["Mists of Pandaria (Timewalking)"] = 1453
+dungeon_ids["Warlords of Draenor (Timewalking)"] = 1971
+dungeon_ids["Legion (Timewalking)"] = 2274
 
 -- Raid IDs
 dungeon_ids["The Leeching Vaults (LFR)"] = 2337
