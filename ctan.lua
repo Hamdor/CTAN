@@ -7,31 +7,37 @@ local interval = 40
 local role = "none"
 
 -- Dungeon IDs
-local dungeon_ids = {}
-dungeon_ids["Shadowlands (NHC)"] = 2086
-dungeon_ids["Shadowlands (HC)"] = 2087
-dungeon_ids["Burning Crusade (Timewalking)"] = 744
-dungeon_ids["Wrath of the Lich King (Timewalking)"] = 995
-dungeon_ids["Cataclysm (Timewalking)"] = 1146
-dungeon_ids["Mists of Pandaria (Timewalking)"] = 1453
-dungeon_ids["Warlords of Draenor (Timewalking)"] = 1971
-dungeon_ids["Legion (Timewalking)"] = 2274
+local dungeon_ids = {
+  2086, -- Shadowlands (NHC)
+  2087, -- Shadowlands (HC)
+  744,  -- Burning Crusade (Timewalking)
+  995,  -- Wrath of the Lich King (Timewalking)
+  1146, -- Cataclysm (Timewalking)
+  1453, -- Mists of Pandaria (Timewalking)
+  1971, -- Warlords of Draenor (Timewalking)
+  2274, -- Legion (Timewalking)
+  2337, -- The Leeching Vaults (LFR)
+  2338, -- Reliquary of Opulence (LFR)
+  2339, -- Blood from Stone (LFR)
+  2340, -- An Audience with Arrogance (LFR)
+  2341, -- The Jailer's Vanguard (LFR)
+  2342, -- The Dark Bastille (LFR)
+  2343, -- Shackles of Fate (LFR)
+  2344, -- The Reckoning (LFR)
+  2345, -- Cornerstone of Creation (LFR)
+  2346, -- Ephemeral Plains (LFR)
+  2347, -- Domination's Grasp (LFR)
+  2348  -- The Grand Design (LFR)
+}
 
--- Raid IDs
-dungeon_ids["The Leeching Vaults (LFR)"] = 2337
-dungeon_ids["Reliquary of Opulence (LFR)"] = 2338
-dungeon_ids["Blood from Stone (LFR)"] = 2339
-dungeon_ids["An Audience with Arrogance (LFR)"] = 2340
---
-dungeon_ids["The Jailer's Vanguard (LFR)"] = 2341
-dungeon_ids["The Dark Bastille (LFR)"] = 2342
-dungeon_ids["Shackles of Fate (LFR)"] = 2343
-dungeon_ids["The Reckoning (LFR)"] = 2344
---
-dungeon_ids["Cornerstone of Creation (LFR)"] = 2345
-dungeon_ids["Ephemeral Plains (LFR)"] = 2346
-dungeon_ids["Domination's Grasp (LFR)"] = 2347
-dungeon_ids["The Grand Design (LFR)"] = 2348
+local dungeon_infos = {}
+
+local function load_dungeon_info(id)
+  name, typeid, _, _, _, _, _, _, _, _, _, _,
+  _, _, _, _, _, timewalk, _, _, _, _ = GetLFGDungeonInfo(id)
+  dungeon_info = {name = name, typeid = typeid, timewalk = timewalk}
+  return dungeon_info
+end
 
 local earnable_dungeons = {}
 local seen_dungeons = {}
@@ -45,21 +51,22 @@ end
 local function tick()
   local enable_glow = false
   earnable_dungeons = {}
-  for key, id in pairs(dungeon_ids) do
+  for _, id in pairs(dungeon_ids) do
     eligible, forTank, forHealer,
     forDamage, _, _, _ = GetLFGRoleShortageRewards(id,
                                                    LFG_ROLE_SHORTAGE_RARE)
     if role == "TANK" and forTank then
       enable_glow = true
-      table.insert(earnable_dungeons, key)
+      table.insert(earnable_dungeons, id)
     elseif role == "HEALER" and forHealer then
       enable_glow = true
-      table.insert(earnable_dungeons, key)
+      table.insert(earnable_dungeons, id)
     elseif role == "DAMAGER" and forDamage then
       enable_glow = true
-      table.insert(earnable_dungeons, key)
+      table.insert(earnable_dungeons, id)
     end
   end
+
   if not table_equal(earnable_dungeons, seen_dungeons) and enable_glow then
     ActionButton_ShowOverlayGlow(LFDMicroButton)
   else
@@ -85,11 +92,17 @@ end
 function events:ADDON_LOADED(name)
   if name ~= "ctan" then return end
 
+  -- Load dungeon information
+  dungeon_infos = {}
+  for _, id in pairs(dungeon_ids) do
+    table.insert(dungeon_infos, id, load_dungeon_info(id))
+  end
+
   -- Register function for tooltip show
   LFDMicroButton:SetScript("OnEnter", function()
     GameTooltip:SetOwner(LFDMicroButton, "ANCHOR_BOTTOM")
-    for idx, dungeon_str in pairs(earnable_dungeons) do
-      GameTooltip:AddLine(dungeon_str)
+    for i = 1, #earnable_dungeons do
+      GameTooltip:AddLine(dungeon_infos[earnable_dungeons[i]].name)
     end
     GameTooltip:Show()
   end)
@@ -102,7 +115,7 @@ function events:ADDON_LOADED(name)
   end)
 
   -- Start the timer.
-  C_Timer.After(interval, tick)
+  C_Timer.After(5, tick)
 end
 
 f:SetScript("OnEvent", function(self, event, ...)
