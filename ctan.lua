@@ -51,19 +51,15 @@ end
 local function tick()
   local enable_glow = false
   earnable_dungeons = {}
-  for _, id in pairs(dungeon_ids) do
+  for i = 1, #dungeon_ids do
     eligible, forTank, forHealer,
-    forDamage, _, _, _ = GetLFGRoleShortageRewards(id,
+    forDamage, _, _, _ = GetLFGRoleShortageRewards(dungeon_ids[i],
                                                    LFG_ROLE_SHORTAGE_RARE)
-    if role == "TANK" and forTank then
+    if (role == "TANK" and forTank)      or
+       (role == "HEALER" and forHealer)  or
+       (role == "DAMAGER" and forDamage) then
       enable_glow = true
-      table.insert(earnable_dungeons, id)
-    elseif role == "HEALER" and forHealer then
-      enable_glow = true
-      table.insert(earnable_dungeons, id)
-    elseif role == "DAMAGER" and forDamage then
-      enable_glow = true
-      table.insert(earnable_dungeons, id)
+      table.insert(earnable_dungeons, i)
     end
   end
 
@@ -94,8 +90,8 @@ function events:ADDON_LOADED(name)
 
   -- Load dungeon information
   dungeon_infos = {}
-  for _, id in pairs(dungeon_ids) do
-    table.insert(dungeon_infos, id, load_dungeon_info(id))
+  for i = 1, #dungeon_ids do
+    table.insert(dungeon_infos, i, load_dungeon_info(dungeon_ids[i]))
   end
 
   -- Register function for tooltip show

@@ -2,5 +2,5 @@
 ## Title: ctan
 ## Notes: Call to arms notifier
 ## Author: Hamdor
-## Version: 0.2
+## Version: 0.3
 ctan.lua
