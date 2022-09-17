@@ -3,8 +3,10 @@ local events = {}
 
 -- Callback will be called all 40sec.
 local interval = 40
--- Default role.
+
 local role = "none"
+
+local in_group = false
 
 -- Dungeon IDs
 local dungeon_ids = {
@@ -50,6 +52,7 @@ end
 -- Timer callback function, checks whether there is a bonus or not.
 local function tick()
   local enable_glow = false
+  local current_dungeons = {}
   earnable_dungeons = {}
   for i = 1, #dungeon_ids do
     eligible, forTank, forHealer,
@@ -59,14 +62,17 @@ local function tick()
        (role == "HEALER" and forHealer)  or
        (role == "DAMAGER" and forDamage) then
       enable_glow = true
-      table.insert(earnable_dungeons, i)
+      table.insert(current_dungeons, i)
     end
   end
 
-  if not table_equal(earnable_dungeons, seen_dungeons) and enable_glow then
-    ActionButton_ShowOverlayGlow(LFDMicroButton)
-  else
-    ActionButton_HideOverlayGlow(LFDMicroButton)
+  if not in_group then
+    if not table_equal(current_dungeons, seen_dungeons) and enable_glow then
+      ActionButton_ShowOverlayGlow(LFDMicroButton)
+    else
+      ActionButton_HideOverlayGlow(LFDMicroButton)
+    end
+    earnable_dungeons = current_dungeons
   end
   C_Timer.After(interval, tick)
 end
@@ -84,6 +90,18 @@ function events:PLAYER_ENTERING_WORLD(...)
   events:PLAYER_SPECIALIZATION_CHANGED()
 end
 
+-- Handler for group changes (e.g. joining, leaving, ...)
+function events:GROUP_ROSTER_UPDATE(...)
+  local currently_in_group = GetNumGroupMembers(LE_PARTY_CATEGORY_HOME) > 0
+  if not in_group and currently_in_group then
+    print("ctan disabled, you joined a (manual) group.")
+    in_group = true
+  elseif not currently_in_group then
+    print("ctan enabled, you leaved a (manual) group.")
+    in_group = false
+  end
+end
+
 --- Handler for ADDON_LOADED event (on login or UI reload).
 function events:ADDON_LOADED(name)
   if name ~= "ctan" then return end
@@ -92,6 +110,11 @@ function events:ADDON_LOADED(name)
   dungeon_infos = {}
   for i = 1, #dungeon_ids do
     table.insert(dungeon_infos, i, load_dungeon_info(dungeon_ids[i]))
+  end
+
+  in_group = GetNumGroupMembers(LE_PARTY_CATEGORY_HOME) > 0
+  if in_group then
+    print("ctan disabled, you are in a (manual) group.")
   end
 
   -- Register function for tooltip show
@@ -126,7 +149,7 @@ end
 local function CommandHandler(msg, editbox)
   local _, _, cmd, args = string.find(msg, "%s?(%w+)%s?(.*)")
   if cmd == "status" then
-    if role ~= "none" then
+    if not in_group and role ~= "none" then
       print("ctan is listening to lfg tool ("..role..").")
     else
       print("ctan is not listening to lfg tool.")
