@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100002
 ## Title: ctan
 ## Notes: Call to arms notifier
 ## Author: Hamdor
