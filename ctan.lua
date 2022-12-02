@@ -10,14 +10,19 @@ local in_group = false
 
 -- Dungeon IDs
 local dungeon_ids = {
+  -- Dungeons
   2086, -- Shadowlands (NHC)
   2087, -- Shadowlands (HC)
+  2350, -- Dragonflight (NHC)
+  2351, -- Dragonflight (HC)
+  -- Timewalk
   744,  -- Burning Crusade (Timewalking)
   995,  -- Wrath of the Lich King (Timewalking)
   1146, -- Cataclysm (Timewalking)
   1453, -- Mists of Pandaria (Timewalking)
   1971, -- Warlords of Draenor (Timewalking)
   2274, -- Legion (Timewalking)
+  -- LFR
   2337, -- The Leeching Vaults (LFR)
   2338, -- Reliquary of Opulence (LFR)
   2339, -- Blood from Stone (LFR)
@@ -29,7 +34,10 @@ local dungeon_ids = {
   2345, -- Cornerstone of Creation (LFR)
   2346, -- Ephemeral Plains (LFR)
   2347, -- Domination's Grasp (LFR)
-  2348  -- The Grand Design (LFR)
+  2348, -- The Grand Design (LFR)
+  2370, -- The Primal Bulwark (LFR)
+  2371, -- Caverns of Infusion (LFR)
+  2372, -- Fury of the Storm (LFR)
 }
 
 local dungeon_infos = {}
