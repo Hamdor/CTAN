@@ -3,4 +3,5 @@
 ## Notes: Call to arms notifier
 ## Author: Hamdor
 ## Version: 0.3
+## IconTexture: Interface\AddOns\ctan\icon
 ctan.lua
