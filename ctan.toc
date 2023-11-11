@@ -1,4 +1,4 @@
-## Interface: 100100
+## Interface: 100200
 ## Title: ctan
 ## Notes: Call to arms notifier
 ## Author: Hamdor
