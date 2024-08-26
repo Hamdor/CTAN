@@ -15,6 +15,8 @@ local dungeon_ids = {
   2087, -- Shadowlands (HC)
   2350, -- Dragonflight (NHC)
   2351, -- Dragonflight (HC)
+  2516, -- The War Within (NHC)
+  2517, -- The War Within (HC)
   -- Timewalk
   744,  -- Burning Crusade (Timewalking)
   995,  -- Wrath of the Lich King (Timewalking)
@@ -38,6 +40,22 @@ local dungeon_ids = {
   2370, -- The Primal Bulwark (LFR)
   2371, -- Caverns of Infusion (LFR)
   2372, -- Fury of the Storm (LFR)
+  2399, -- Discarded Works (LFR)
+  2400, -- Fury of Giants (LFR)
+  2401, -- Neltharion's Shadow (LFR)
+  2402, -- Edge of the Void (LFR)
+  2411, -- The Leeching Vaults (LFR)
+  2412, -- Reliquary of Opulence (LFR)
+  2413, -- Blood from Stone (LFR)
+  2414, -- An Audience with Arrogance (LFR)
+  2415, -- The Jailer's Vanguard (LFR)
+  2416, -- The Dark Bastille (LFR)
+  2417, -- Shackles of Fate (LFR)
+  2418, -- The Reckoning (LFR)
+  2419, -- Cornerstone of Creation (LFR)
+  2420, -- Ephemeral Plains (LFR)
+  2421, -- Domination's Grasp (LFR)
+  2422, -- The Grand Design (LFR)
 }
 
 local dungeon_infos = {}
