@@ -118,13 +118,16 @@ end
 
 -- Handler for group changes (e.g. joining, leaving, ...)
 function events:GROUP_ROSTER_UPDATE(...)
+  local auto_group = GetNumGroupMembers(LE_PARTY_CATEGORY_INSTANCE) > 0
   local currently_in_group = GetNumGroupMembers(LE_PARTY_CATEGORY_HOME) > 0
   if not in_group and currently_in_group then
     print("ctan disabled, you joined a (manual) group.")
     in_group = true
   elseif not currently_in_group then
-    print("ctan enabled, you leaved a (manual) group.")
-    in_group = false
+    if not auto_group then
+      print("ctan enabled, you leaved a (manual) group.")
+    end
+      in_group = false
   end
 end
 
